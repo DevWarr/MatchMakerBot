@@ -11,7 +11,6 @@ exports.run = client => {
         .then(() => {
             const ping = "🔔"
             const noPing = "🔕"
-            console.log(ping, noPing)
             matchmaking
                 .send(
                     `Click on an emoji to determine your status!\n\n${ping} to receive pings\n${noPing} to receive _no_ pings\nTest it out!`
