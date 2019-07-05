@@ -1,14 +1,14 @@
-module.exports = (client, oldMessage, newMessage) => {
+module.exports = (client, omsg, nmsg) => {
     // ONLY listen for message updates if the updates are within
     // "bot-test-two" or "free-bot-testing"
     console.log("message update detected!")
     if (
-        oldMessage.channel.name !== "bot-test-two" ||
-        newMessage.channel.name !== "bot-test-two" ||
-        oldMessage.channel.name !== "free-bot-testing" ||
-        newMessage.channel.name !== "free-bot-testing"
+        omsg.channel.name !== "bot-test-two" ||
+        nmsg.channel.name !== "bot-test-two" ||
+        omsg.channel.name !== "free-bot-testing" ||
+        nmsg.channel.name !== "free-bot-testing"
     )
         return
 
-    console.log(newMessage.reactions)
+    console.log(nmsg.reactions)
 }

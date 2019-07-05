@@ -1,1 +1,3 @@
-exports.run = () => console.log("I am ready!")
+exports.run = client => {
+    console.log("I am ready!")
+}

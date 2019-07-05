@@ -8,6 +8,8 @@ const client = new Discord.Client()
 const config = require("./config.json")
 client.config = config
 
+//=============================EVENT IMPORTING=============================//
+
 /*
     Working on an event, but not sure what to do? Use this console.log!
         console.log([message.author, message.channel, message.content, message.reactions])
@@ -24,6 +26,8 @@ fs.readdir("./events/", (err, files) => {
     console.log("All events loaded!\n")
 })
 
+//=============================COMMANDS IMPORTING=============================//
+
 client.commands = new Enmap()
 
 fs.readdir("./commands/", (err, files) => {
@@ -36,6 +40,8 @@ fs.readdir("./commands/", (err, files) => {
     })
     console.log("All commands loaded!\n")
 })
+
+//=============================REQUESTS IMPORTING=============================//
 
 client.requests = new Enmap()
 

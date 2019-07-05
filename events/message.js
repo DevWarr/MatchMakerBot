@@ -1,7 +1,7 @@
 module.exports = (client, message) => {
     // Message setn by bot? No action!
     if (message.author.bot) return
-    console.log("message detected!")
+    console.log("New message detected!")
 
     // What is our message prefix?
     switch (message.content[0]) {
