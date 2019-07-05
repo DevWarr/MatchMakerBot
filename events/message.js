@@ -6,8 +6,8 @@ module.exports = (client, message) => {
     // Message by a user in a bot only channel? Get em out!
     if (
         !message.author.bot &&
-        (message.channel.name === "bot-test-two" ||
-            message.channel.name === "free-bot-testing")
+        (message.channel.id === "596803653055021087" ||
+            message.channel.id === "596809535419711502")
     ) {
         message
             .delete()
