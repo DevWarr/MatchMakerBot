@@ -1,29 +1,37 @@
 // Bring in the discord stuffs
-const Discord = require ("discord.js")
-const config = require ("./config.json")
-const Enmap = require ("./utils/enmap.js")
+const Discord = require("discord.js")
+const fs = require("fs")
+const Enmap = require("./utils/enmap.js")
 
-const testEnmap = new Enmap({
-    name: "Charlie",
-    age: 25,
-    hometown: "Lewisville"
+// Create a new client. This is our bot!
+const client = new Discord.Client()
+const config = require("./config.json")
+client.config = config
+
+fs.readdir("./events/", (err, files) => {
+    if (err) return console.error(err)
+    files.forEach(file => {
+        const event = require(`./events/${file}`)
+        const eventName = file.split(".")[0]
+        client.on(eventName, event.bind(null, client))
+    })
 })
 
-console.log(testEnmap.get("name"))
-console.log(testEnmap.set("age", 26))
-console.log(testEnmap.set("friend", "John"))
+client.commands = new Enmap()
 
-// // Create a new client. This is our bot!
-// const client = new Discord.Client()
+fs.readdir("./commands/", (err, files) => {
+    if (err) return console.error(err)
+    files.forEach(file => {
+        const props = require(`./commands/${file}`)
+        const commandName = file.split(".")[0]
+        client.commands.setNew(commandName, props)
+    })
+})
 
-// client.on("ready", () => {
-//     console.log("I am ready!")
-// })
+client.on("message", message => {
+    if (message.content.startsWith("ping")) {
+        message.channel.send("pong!")
+    }
+})
 
-// client.on("message", message => {
-//     if (message.content.startsWith("ping")) {
-//         message.channel.send("pong!")
-//     }
-// })
-
-// client.login(config.token)
+client.login(config.token)

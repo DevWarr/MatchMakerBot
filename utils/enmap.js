@@ -1,11 +1,11 @@
 class enmap {
-    constructor(attrs) {
+    constructor(attrs = {}) {
         this.attrs = attrs
     }
 
     get(prop) {
         prop = String(prop)
-        return this.attrs[prop] ? this.attrs[prop] : "No property by this name"
+        return this.attrs[prop]
     }
 
     set (prop, value) {
@@ -33,7 +33,7 @@ class enmap {
     setNew (prop, value) {
         prop = String(prop)
         if (this.attrs[prop]) {
-            return `${this.attrs[prop]} already exists. Did you mean to set it with 'set()' or 'setForce()'?`
+            return `${prop} already exists. Did you mean to set it with 'set()' or 'setForce()'?`
         }
         this.attrs[prop] = value
         return `Assigned a new property ${prop} with value ${value}`
