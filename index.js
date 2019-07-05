@@ -28,10 +28,15 @@ fs.readdir("./commands/", (err, files) => {
     })
 })
 
-client.on("message", message => {
-    if (message.content.startsWith("ping")) {
-        message.channel.send("pong!")
-    }
+client.requests = new Enmap()
+
+fs.readdir("./requests/", (err, files) => {
+    if (err) return console.error(err)
+    files.forEach(file => {
+        const props = require(`./requests/${file}`)
+        const requestName = file.split(".")[0]
+        client.requests.setNew(requestName, props)
+    })
 })
 
 client.login(config.token)
