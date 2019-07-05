@@ -1,5 +1,6 @@
 // Bring in the discord stuffs
 const Discord = require ("discord.js")
+const config = require ("./config.json")
 
 // Create a new client. This is our bot!
 const client = new Discord.Client()
@@ -14,4 +15,4 @@ client.on("message", message => {
     }
 })
 
-client.login("")
+client.login(config.token)
