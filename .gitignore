@@ -4,5 +4,8 @@
 /node_modules
 
 
+# Testing
+/.vscode
+
 # config file
 config.json
