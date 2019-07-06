@@ -1,7 +1,7 @@
 // Bring in the discord stuffs
 const Discord = require("discord.js")
 const fs = require("fs")
-const Enmap = require("./utils/enmap.js")
+const Enmap = require("./utils/Enmap.js")
 
 // Create a new client. This is our bot!
 const client = new Discord.Client()

@@ -1,3 +1,5 @@
+const Collector = require("../reactionCollector")
+
 exports.run = client => {
     console.log("Fetching messages...")
     const matchmaking = client.channels.find(
@@ -16,9 +18,12 @@ exports.run = client => {
                     `Click on an emoji to determine your status!\n\n${ping} to receive pings\n${noPing} to receive _no_ pings\nTest it out!`
                 )
                 .then(msg => {
+                    const infoCollector = new Collector(msg)
+                    infoCollector.initiate()
                     msg.react(ping)
                     msg.react(noPing)
                 })
+                .catch(console.error)
         })
         .catch(console.error)
 

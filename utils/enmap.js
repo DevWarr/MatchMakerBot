@@ -1,4 +1,4 @@
-class enmap {
+class Enmap {
     constructor(attrs = {}) {
         this.attrs = attrs
     }
@@ -40,4 +40,4 @@ class enmap {
     }
 }
 
-module.exports = enmap
+module.exports = Enmap
