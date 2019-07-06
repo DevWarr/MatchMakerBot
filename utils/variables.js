@@ -1,5 +1,4 @@
 module.exports = {
-
     users: {
         bot: "596597142768844811",
         warvdine: "296327135491129344"
@@ -16,5 +15,18 @@ module.exports = {
         freeBotTesting: "596809535419711502",
         matchmaking: "596803653055021087",
         matchesGroup: ""
+    },
+
+    reactions: {
+        looking: "✅",
+        available: "🔔",
+        inGame: "⛔",
+        doNotDisturb: "🔕",
+        challenger: "⚔",
+        ok: "🆗"
+    },
+
+    guilds: {
+        warvdineBotTesting: "596590684668952606"
     }
 }

@@ -9,63 +9,50 @@ exports.run = client => {
     matchmaking
         .fetchMessages()
         .then(messages => {
-            messages.forEach(message =>
-                message
-                    .delete()
-                    .then(() => {
-                        const msgInfo = {
-                            looking: "✅",
-                            available: "🔔",
-                            inGame: "⛔",
-                            doNotDisturb: "🔕",
-                            challenger: "⚔",
-                            ok: "🆗"
-                        }
-                        matchmaking
-                            .send(
-                                `Click on a reaction emoji to set your matchmaking role!\n\n${
-                                    msgInfo.looking
-                                } Looking for Opponent\n${
-                                    msgInfo.available
-                                } Potentially Available\n${
-                                    msgInfo.inGame
-                                } In Game\n${
-                                    msgInfo.doNotDisturb
-                                } Do Not Disturb\n\nIf a user is looking for an opponent, there will be a message down below. If you would like to challenge them, click the ${
-                                    msgInfo.challenger
-                                } emoji.\nThey can accept your challenge by clicking the ${
-                                    msgInfo.ok
-                                } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify <@${variables.users.warvdine}> and help will reach you soon!`
-                            )
-                            .then(msg => {
-                                new Collector(
-                                    msg,
-                                    "MAIN_INFO",
-                                    msgInfo
-                                ).initiate()
-                                msg.react(msgInfo.looking)
-                                    .then(r =>
-                                        r.message
-                                            .react(msgInfo.available)
-                                            .then(r =>
-                                                r.message
-                                                    .react(msgInfo.inGame)
-                                                    .then(r =>
-                                                        r.message.react(
-                                                            msgInfo.doNotDisturb
-                                                        )
-                                                    )
-                                                    .catch(console.error)
-                                            )
-                                            .catch(console.error)
-                                    )
-                                    .catch(console.error)
-                            })
-                            .catch(console.error)
-                    })
-                    .catch(console.error)
-            )
+            messages.forEach(message => message.delete())
         })
+        .then(() => {
+            const reactions = variables.reactions
+            matchmaking
+                .send(
+                    `Click on a reaction emoji to set your matchmaking role!\n\n${
+                        reactions.looking
+                    } Looking for Opponent\n${
+                        reactions.available
+                    } Potentially Available\n${reactions.inGame} In Game\n${
+                        reactions.doNotDisturb
+                    } Do Not Disturb\n\nIf a user is looking for an opponent, there will be a message down below. If you would like to challenge them, click the ${
+                        reactions.challenger
+                    } emoji.\nThey can accept your challenge by clicking the ${
+                        reactions.ok
+                    } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify <@${
+                        variables.users.warvdine
+                    }> and help will reach you soon!`
+                )
+                .then(msg => {
+                    new Collector(msg, "MAIN_INFO", {}, client).initiate()
+                    msg.react(reactions.looking)
+                        .then(r =>
+                            r.message
+                                .react(reactions.available)
+                                .then(r =>
+                                    r.message
+                                        .react(reactions.inGame)
+                                        .then(r =>
+                                            r.message.react(
+                                                reactions.doNotDisturb
+                                            )
+                                        )
+                                        .catch(console.error)
+                                )
+                                .catch(console.error)
+                        )
+                        .catch(console.error)
+                })
+                .catch(console.error)
+        })
+        .catch(console.error)
+
         .catch(console.error)
 
     const freeBotTesting = client.channels.find(
