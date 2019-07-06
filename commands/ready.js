@@ -15,7 +15,7 @@ exports.run = client => {
             const reactions = variables.reactions
             matchmaking
                 .send(
-                    `Click on a reaction emoji to set your matchmaking role!\n\n${
+                    `<@${variables.users.bot}>\n\nClick on a reaction emoji to set your matchmaking role!\n\n${
                         reactions.looking
                     } Looking for Opponent\n${
                         reactions.available

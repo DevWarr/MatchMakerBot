@@ -2,10 +2,15 @@ const Collector = require("../reactionCollector")
 const variables = require("../utils/variables.js")
 
 const msgRemover = (channel, user1, user2 = null) => {
-    const arrayWithUser = channel.messages.filter(message =>
-        message.mentions.users.get(user1)
+    const arrayWithUser = channel.messages.filter(
+        message =>
+            !message.mentions.users.get(variables.users.bot) &&
+            message.mentions.users.get(user1)
     )
-    console.log(arrayWithUser)
+    arrayWithUser.forEach(msg => {
+        if ([...msg.mentions.users].length === 1)
+            msg.delete(500).catch(console.error)
+    })
 }
 
 const roleReset = (member, removers) => {
@@ -63,9 +68,18 @@ exports.run = (client, botId, reactions, reaction, user) => {
 
             // Send a new message to the channel, and start listening for reactions!
             msg.channel
-                .send(`<@${user.id}> ${randomString}`)
+                .send(
+                    `<@${user.id}> ${randomString}\n\n<@&${
+                        variables.roles.looking
+                    }> <@&${variables.roles.available}>`
+                )
                 .then(msg => {
-                    new Collector(msg, "LOOKING", { user1: user.id }).initiate()
+                    new Collector(
+                        msg,
+                        "LOOKING",
+                        { user1: user.id },
+                        client
+                    ).initiate()
                     msg.react(reactions.challenger).catch(console.error)
                 })
                 .catch(console.error)
