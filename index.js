@@ -8,6 +8,28 @@ const client = new Discord.Client()
 const config = require("./utils/variables.js")
 client.config = config
 
+//=============================TIME DISPLAY=============================//
+
+const getDateTime = () => {
+    const date = new Date();
+    let sec = date.getSeconds()
+    sec = sec < 10 ? `0${sec}` : `${sec}`
+    let min = date.getMinutes()
+    min = min < 10 ? `0${min}` : `${min}`
+    let hour = date.getHours()
+    hour = hour < 10 ? `0${hour}` : `${hour}`
+    let day = date.getDate()
+    day = day < 10 ? `0${day}` : `${day}`
+    let month = date.getMonths()
+    month = month < 10 ? `0${month}` : `${month}`
+    let year = date.getFullYear()
+    return `${year}:${month}:${day} ${hour}:${min}:${sec}:`
+}
+
+const log = (message) => {
+    console.log(`${getDateTime()} ${message}`)
+}
+
 //=============================EVENT IMPORTING=============================//
 
 /*
@@ -16,14 +38,14 @@ client.config = config
     This should give you the main bits you need!
 */
 fs.readdir("./events/", (err, files) => {
-    if (err) return console.error(err)
+    if (err) return log(err)
     files.forEach(file => {
         const event = require(`./events/${file}`)
         const eventName = file.split(".")[0]
         client.on(eventName, event.bind(null, client))
-        console.log(`loading event: ${eventName}...`)
+        log(`loading event: ${eventName}...`)
     })
-    console.log("All events loaded!\n")
+    log("All events loaded!\n")
 })
 
 //=============================COMMANDS IMPORTING=============================//
@@ -31,14 +53,14 @@ fs.readdir("./events/", (err, files) => {
 client.commands = new Enmap()
 
 fs.readdir("./commands/", (err, files) => {
-    if (err) return console.error(err)
+    if (err) return log(err)
     files.forEach(file => {
         const props = require(`./commands/${file}`)
         const commandName = file.split(".")[0]
         client.commands.setNew(commandName, props)
-        console.log(`loading command: ${commandName}...`)
+        log(`loading command: ${commandName}...`)
     })
-    console.log("All commands loaded!\n")
+    log("All commands loaded!\n")
 })
 
 //=============================REQUESTS IMPORTING=============================//
@@ -46,14 +68,14 @@ fs.readdir("./commands/", (err, files) => {
 client.requests = new Enmap()
 
 fs.readdir("./requests/", (err, files) => {
-    if (err) return console.error(err)
+    if (err) return log(err)
     files.forEach(file => {
         const props = require(`./requests/${file}`)
         const requestName = file.split(".")[0]
         client.requests.setNew(requestName, props)
-        console.log(`loading request: ${requestName}...`)
+        log(`loading request: ${requestName}...`)
     })
-    console.log("All requests loaded!\n")
+    log("All requests loaded!\n")
 })
 
 
