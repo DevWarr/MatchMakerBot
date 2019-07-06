@@ -5,7 +5,7 @@ const Enmap = require("./utils/Enmap.js")
 
 // Create a new client. This is our bot!
 const client = new Discord.Client()
-const config = require("./config.json")
+const config = require("./utils/variables.js")
 client.config = config
 
 //=============================EVENT IMPORTING=============================//
@@ -56,4 +56,9 @@ fs.readdir("./requests/", (err, files) => {
     console.log("All requests loaded!\n")
 })
 
-client.login(config.token)
+
+// CHANGE THIS BEFORE HEROKU LAUNCH
+const token = require("./token.json")
+client.login(token.token)
+
+// client.login(process.env.token)
