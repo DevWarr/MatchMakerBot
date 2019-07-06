@@ -1,16 +1,14 @@
 const Collector = require("../reactionCollector")
 const variables = require("../utils/variables.js")
 
-const msgRemover = (channel, user1, user2 = null) => {
-    const arrayWithUser = channel.messages.filter(
-        message =>
-            !message.mentions.users.get(variables.users.bot) &&
+const msgRemover = (channel, user1, user2) => {
+    channel.messages.forEach(message => {
+        if (
+            message.mentions.users.get(variables.users.bot) &&
             message.mentions.users.get(user1) &&
             message.mentions.users.get(user2)
-    )
-    arrayWithUser.forEach(msg => {
-        if ([...msg.mentions.users].length >= 2)
-            msg.delete().catch(console.error)
+        )
+            message.delete().catch(console.error)
     })
 }
 
@@ -58,6 +56,8 @@ exports.run = (
 
     textChannel.delete().catch(console.error)
     voiceChannel.delete().catch(console.error)
-    const matchmaking = client.guilds.get(variables.guilds.warvdineBotTesting).channels.get(variables.channels.matchmaking)
+    const matchmaking = client.guilds
+        .get(variables.guilds.warvdineBotTesting)
+        .channels.get(variables.channels.matchmaking)
     msgRemover(matchmaking, user1, user2)
 }

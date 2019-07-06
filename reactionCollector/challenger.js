@@ -14,11 +14,11 @@ const msgRemover = (channel, user1, user2 = null) => {
     })
 }
 
-const roleReset = (member, removers) => {
-    removers.forEach(role => {
-        if (member.roles.get(variables.roles[`${role}`])) {
-            member.removeRole(variables.roles[`${role}`])
-        }
+const roleAssign = (member, removers, role) => {
+    removers.forEach(roleRemove => {
+        if ((variables.roles[`${roleRemove}`]) !== role) {
+            member.removeRole(variables.roles[`${roleRemove}`])
+        } else member.addRole(role)
     })
 }
 
@@ -45,10 +45,8 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
 
     // Alright, step one is to remove the extra messages, and set both users' roles
     msgRemover(msg.channel, user1, user2)
-    roleReset(member1, Object.keys(variables.roles))
-    roleReset(member2, Object.keys(variables.roles))
-    member1.addRole(role).catch(console.error)
-    member2.addRole(role).catch(console.error)
+    roleAssign(member1, Object.keys(variables.roles), role)
+    roleAssign(member2, Object.keys(variables.roles), role)
 
     // Then we need to create our new channel:
 
@@ -65,7 +63,6 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     const channelCategory = msg.guild.channels.get(
         variables.channels.matchesGroup
     )
-    console.log(channelCategory.id)
 
     let textChannel, voiceChannel
     // The voice channel
