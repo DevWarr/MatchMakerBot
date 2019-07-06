@@ -14,13 +14,6 @@ const msgRemover = (channel, user1, user2 = null) => {
     })
 }
 
-const roleAssign = (member, removers, role) => {
-    removers.forEach(roleRemove => {
-        if ((variables.roles[`${roleRemove}`]) !== role) {
-            member.removeRole(variables.roles[`${roleRemove}`])
-        } else member.addRole(role)
-    })
-}
 
 exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     // Some "error" handling
@@ -39,6 +32,7 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         .members.get(user2)
     const role = variables.roles.inGame
     const { ok, door } = reactions
+    const roleAssign = client.commands.get(roleAssign)
     // Final error check
     if (reaction.emoji.name !== ok)
         return reaction.remove(user.id).catch(console.error)

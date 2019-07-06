@@ -13,14 +13,6 @@ const msgRemover = (channel, user1, user2 = null) => {
     })
 }
 
-const roleAssign = (member, removers, role) => {
-    removers.forEach(roleRemove => {
-        if ((variables.roles[`${roleRemove}`]) !== role) {
-            member.removeRole(variables.roles[`${roleRemove}`])
-        } else member.addRole(role)
-    })
-}
-
 /*
     Listener for the Main Info section of the matchmaker.
     This is the Message with all the initial info
@@ -44,6 +36,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
         .get(variables.guilds.warvdineBotTesting)
         .members.get(user.id)
     const { looking, available, inGame, doNotDisturb } = reactions
+    const roleAssign = client.commands.get(roleAssign)
     // Final error check
 
     switch (reaction.emoji.name) {
