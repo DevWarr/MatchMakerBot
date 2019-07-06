@@ -35,7 +35,7 @@ const roleReset = (member, removers) => {
 exports.run = (client, botId, reactions, reaction, user) => {
     // Some "error" handling
     if (user.id === botId) return
-    if (!reaction.me) reaction.remove(user.id).catch(console.error)
+    if (!reaction.me) return reaction.remove(user.id).catch(console.error)
 
     // Setting init values:
     // msg, member, and reactions

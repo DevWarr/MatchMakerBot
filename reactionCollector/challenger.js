@@ -25,8 +25,8 @@ const roleReset = (member, removers) => {
 exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     // Some "error" handling
     if (user.id === botId) return
-    if (!reaction.me) reaction.remove(user.id).catch(console.error)
-    if (user.id !== user1) reaction.remove(user.id).catch(console.error)
+    if (!reaction.me) return reaction.remove(user.id).catch(console.error)
+    if (user.id !== user1) return reaction.remove(user.id).catch(console.error)
 
     // Setting init values:
     // msg, member, and reactions
@@ -40,7 +40,7 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     const role = variables.roles.inGame
     const { ok, door } = reactions
     // Final error check
-    if (reaction.name !== ok) reaction.remove(user.id).catch(console.error)
+    if (reaction.name !== ok) return reaction.remove(user.id).catch(console.error)
 
     // Alright, step one is to remove the extra messages, and set both users' roles
     msgRemover(msg.channel, user1, user2)
