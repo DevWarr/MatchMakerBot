@@ -22,6 +22,7 @@ module.exports = (client, message) => {
             )
     }
 
+
     // What is our message prefix?
     switch (message.content[0]) {
         // command = "!"
