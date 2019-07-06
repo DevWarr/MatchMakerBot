@@ -103,7 +103,7 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
                     // Once created, we prep our mystical message
                     .then(channel => {
                         const introMsg = `<@${user1.id}> and <@${
-                            user1.id
+                            user2.id
                         }>! This is the time for you two to compete. May the best player win.\n\nWhen either of you are ready to leave, just click the door and these two channels will be deleted.\n**Remember:**`
                         const stringsArray = variables.stringArrays.matchInfo
                         const randomString =

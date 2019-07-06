@@ -15,6 +15,16 @@ class Collector {
     }
 
     initiate() {
+        console.log("\nCreating new collector:")
+        console.log(`msg: ${msg}`)
+        console.log(`bot: ${bot}`)
+        console.log(`bot: ${bot}`)
+        console.log(`type: ${type}`)
+        console.log(`user1: ${user1}`)
+        console.log(`user2: ${user2}`)
+        console.log(`channel1: ${channel1}`)
+        console.log(`channel2: ${channel2}`)
+        console.log(`\n\n`)
         switch (this.type) {
             case "MAIN_INFO": {
                 const module = require("./mainInfo.js")
