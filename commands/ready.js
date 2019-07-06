@@ -25,9 +25,7 @@ exports.run = client => {
                         reactions.challenger
                     } emoji.\nThey can accept your challenge by clicking the ${
                         reactions.ok
-                    } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify <@${
-                        variables.users.warvdine
-                    }> and help will reach you soon!`
+                    } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify @WarVDine and help will reach you soon!`
                 )
                 .then(msg => {
                     new Collector(msg, "MAIN_INFO", {}, client).initiate()

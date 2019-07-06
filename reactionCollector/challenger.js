@@ -26,7 +26,7 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     // Some "error" handling
     if (user.id === botId) return
     if (!reaction.me) return reaction.remove(user.id).catch(console.error)
-    if (user.id !== user1) return reaction.remove(user.id).catch(console.error)
+    // if (user.id !== user1) return reaction.remove(user.id).catch(console.error)
 
     // Setting init values:
     // msg, member, and reactions
@@ -40,7 +40,8 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     const role = variables.roles.inGame
     const { ok, door } = reactions
     // Final error check
-    if (reaction.name !== ok) return reaction.remove(user.id).catch(console.error)
+    if (reaction.emoji.name !== ok)
+        return reaction.remove(user.id).catch(console.error)
 
     // Alright, step one is to remove the extra messages, and set both users' roles
     msgRemover(msg.channel, user1, user2)
@@ -66,8 +67,9 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     )
     console.log(channelCategory.id)
 
+    let textChannel, voiceChannel
     // The voice channel
-    const voiceChannel = msg.guild
+    msg.guild
         .createChannel(`voice-${channelName}`, {
             type: "voice",
             permissionOverwrites: [
@@ -81,12 +83,15 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
             ]
         })
         .then(
-            channel => channel.setParent(channelCategory.id).catch(console.log) // appended to the category
+            channel => {
+                voiceChannel = msg.guild.channels.get(channel.id)
+                channel.setParent(channelCategory.id).catch(console.log)
+            } // appended to the category
         )
         .catch(console.log)
 
     // The text channel
-    const textChannel = msg.guild
+    msg.guild
         .createChannel(`${channelName}`, {
             type: "text",
             permissionOverwrites: [
@@ -101,8 +106,9 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         })
         .then(
             channel => {
+                textChannel = msg.guild.channels.get(channel.id)
                 channel
-                .setParent(channelCategory.id)
+                    .setParent(channelCategory.id)
                     // Once created, we prep our mystical message
                     .then(channel => {
                         const introMsg = `<@${user1.id}> and <@${
@@ -125,10 +131,10 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
                             .then(msg => {
                                 // Create an "info" object
                                 const info = {
-                                    user1: user1,
-                                    user2: user2,
-                                    channel1: textChannel,
-                                    channel2: voiceChannel
+                                    user1: user1.id,
+                                    user2: user2.id,
+                                    channel1: textChannel.id,
+                                    channel2: voiceChannel.id
                                 }
                                 new Collector(
                                     msg,
