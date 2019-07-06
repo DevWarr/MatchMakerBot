@@ -18,7 +18,7 @@ exports.run = client => {
                     `Click on an emoji to determine your status!\n\n${ping} to receive pings\n${noPing} to receive _no_ pings\nTest it out!`
                 )
                 .then(msg => {
-                    new Collector(msg, "MAIN_INFO").initiate()
+                    new Collector(msg, "MAIN_INFO", {ping: ping, noPing: noPing}).initiate()
                     msg.react(ping)
                     const i = setTimeout(() => msg.react(noPing), 1000)
                 })
