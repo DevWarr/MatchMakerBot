@@ -1,9 +1,10 @@
 const Collector = require("../reactionCollector")
+const variables = require("../utils/variables.js")
 
 exports.run = client => {
     console.log("Fetching messages...")
     const matchmaking = client.channels.find(
-        channel => channel.id === "596803653055021087"
+        channel => channel.id === variables.channels.matchmaking
     )
     matchmaking
         .fetchMessages()
@@ -34,7 +35,7 @@ exports.run = client => {
                                     msgInfo.challenger
                                 } emoji.\nThey can accept your challenge by clicking the ${
                                     msgInfo.ok
-                                } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify <@296327135491129344> and help will reach you soon!`
+                                } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify <@${variables.users.warvdine}> and help will reach you soon!`
                             )
                             .then(msg => {
                                 new Collector(
@@ -68,7 +69,7 @@ exports.run = client => {
         .catch(console.error)
 
     const freeBotTesting = client.channels.find(
-        channel => channel.id === "596809535419711502"
+        channel => channel.id === variables.channels.freeBotTesting
     )
     freeBotTesting
         .fetchMessages()

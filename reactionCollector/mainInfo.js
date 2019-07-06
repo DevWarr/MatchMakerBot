@@ -8,13 +8,13 @@
 */
 
 // Paramters: (botId, Obj of allowed reactions, reaction given, user who gave the reaction)
-exports.run = (botId, { ping, noPing }, reaction, user) => {
+exports.run = (botId, { looking, available, inGame, doNotDisturb }, reaction, user) => {
     // Some "error" handling
     if (user.id === botId) return
     if (!reaction.me) reaction.remove(user.id).catch(console.error)
 
     switch (reaction.emoji.name) {
-        case ping:
+        case available:
             reaction.remove(user.id).catch(console.error)
             reaction.message.channel
                 .send(`<@${user.id}>, you have opted for notifications!`)
@@ -24,7 +24,7 @@ exports.run = (botId, { ping, noPing }, reaction, user) => {
                 .catch(console.error)
             break
 
-        case noPing:
+        case doNotDisturb:
             reaction.remove(user.id).catch(console.error)
             reaction.message.channel
                 .send(`<@${user.id}>, you have turned off notifications.`)

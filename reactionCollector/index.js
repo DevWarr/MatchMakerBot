@@ -1,9 +1,10 @@
 const fs = require("fs")
+const variables = require("../utils/variables.js")
 
 class Collector {
     constructor(msg, type, { user1 = null, user2 = null, ...msgInfo }) {
         this.msg = msg
-        this.bot = "596597142768844811"
+        this.bot = variables.users.bot
         this.type = type
         this.user1 = user1
         this.user2 = user2
