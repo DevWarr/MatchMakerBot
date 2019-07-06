@@ -74,8 +74,10 @@ class Collector {
                         this.client,
                         this.bot,
                         this.reactions,
-                        this.user1,
-                        this.user2,
+                        {user1: this.user1,
+                        user2: this.user2,
+                        channel1: this.channel1,
+                        channel2: this.channel2},
                         r,
                         u
                     )
