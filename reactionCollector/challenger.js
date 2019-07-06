@@ -32,7 +32,7 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         .members.get(user2)
     const role = variables.roles.inGame
     const { ok, door } = reactions
-    const roleAssign = client.commands.get(roleAssign)
+    const roleAssign = client.commands.get("roleAssign").run
     // Final error check
     if (reaction.emoji.name !== ok)
         return reaction.remove(user.id).catch(console.error)
@@ -105,13 +105,7 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
                         const introMsg = `<@${user1.id}> and <@${
                             user1.id
                         }>! This is the time for you two to compete. May the best player win.\n\nWhen either of you are ready to leave, just click the door and these two channels will be deleted.\n**Remember:**`
-                        const stringsArray = [
-                            `I know who the victor is before the match has even begun.`,
-                            `The best way to win is to outplay your opponent.`,
-                            `Take it easy out there.`,
-                            `It is only a game.`,
-                            `You'll always be better than the bot. I don't even have hands!`
-                        ]
+                        const stringsArray = variables.stringArrays.matchInfo
                         const randomString =
                             stringsArray[
                                 Math.floor(Math.random() * stringsArray.length)

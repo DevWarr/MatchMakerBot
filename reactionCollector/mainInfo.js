@@ -36,7 +36,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
         .get(variables.guilds.warvdineBotTesting)
         .members.get(user.id)
     const { looking, available, inGame, doNotDisturb } = reactions
-    const roleAssign = client.commands.get(roleAssign)
+    const roleAssign = client.commands.get("roleAssign").run
     // Final error check
 
     switch (reaction.emoji.name) {
@@ -50,12 +50,19 @@ exports.run = (client, botId, reactions, reaction, user) => {
             if (member.roles.get(role)) return
             roleAssign(member, Object.keys(variables.roles), role)
 
+            // If we already have a "Looking!" message, Don't create a new one!
+            if (
+                msg.channel.messages.find(
+                    message =>
+                        message.mentions.roles.get(variables.roles.looking) &&
+                        message.mentions.roles.get(variables.roles.looking) &&
+                        message.mentions.users.get(user.id)
+                )
+            )
+                return
+
             // Spice things up with a random string!
-            const stringArray = [
-                `**is looking for an opponent!**`,
-                `**seeks a new challenger.**`,
-                `**is searching for someone to fight!**`
-            ]
+            const stringArray = variables.stringArrays.looking
             const randomString =
                 stringArray[Math.floor(Math.random() * stringArray.length)]
 
@@ -89,8 +96,6 @@ exports.run = (client, botId, reactions, reaction, user) => {
             if (member.roles.get(role)) return
             roleAssign(member, Object.keys(variables.roles), role)
 
-            // If user was looking, remove their looking message
-            msgRemover(msg.channel, user.id)
             break
         }
 

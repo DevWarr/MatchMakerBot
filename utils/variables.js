@@ -1,7 +1,8 @@
 module.exports = {
     users: {
         bot: "596597142768844811",
-        warvdine: "296327135491129344"
+        warvdine: "296327135491129344",
+        admin: ""
     },
 
     roles: {
@@ -34,5 +35,21 @@ module.exports = {
     prefixes: {
         command: "!",
         request: "?"
+    },
+
+    stringArrays: {
+        looking: [
+            `**is looking for an opponent!**`,
+            `**seeks a new challenger.**`,
+            `**is searching for someone to fight!**`
+        ],
+        challenger: [`challenges`, `offers to play with`, `wants to fight`],
+        matchInfo: [
+            `I know who the victor is before the match has even begun.`,
+            `The best way to win is to outplay your opponent.`,
+            `Take it easy out there.`,
+            `It is only a game.`,
+            `You'll always be better than the bot. I don't even have hands!`
+        ]
     }
 }
