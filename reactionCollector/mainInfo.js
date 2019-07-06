@@ -64,7 +64,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
                 `**is searching for someone to fight!**`
             ]
             const randomString =
-                stringArray[Math.floor(Math.random(stringArray.length))]
+                stringArray[Math.floor(Math.random() * stringArray.length)]
 
             // Send a new message to the channel, and start listening for reactions!
             msg.channel
