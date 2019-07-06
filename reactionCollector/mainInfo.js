@@ -13,11 +13,11 @@ const msgRemover = (channel, user1, user2 = null) => {
     })
 }
 
-const roleReset = (member, removers) => {
-    removers.forEach(role => {
-        if (member.roles.get(variables.roles[`${role}`])) {
-            member.removeRole(variables.roles[`${role}`])
-        }
+const roleAssign = (member, removers, role) => {
+    removers.forEach(roleRemove => {
+        if ((variables.roles[`${roleRemove}`]) !== role) {
+            member.removeRole(variables.roles[`${roleRemove}`])
+        } else member.addRole(role)
     })
 }
 
@@ -44,6 +44,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
         .get(variables.guilds.warvdineBotTesting)
         .members.get(user.id)
     const { looking, available, inGame, doNotDisturb } = reactions
+    // Final error check
 
     switch (reaction.emoji.name) {
         case looking: {
@@ -54,8 +55,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
             // If role doesn't exist, remove other roles and add this one
             const role = variables.roles.looking
             if (member.roles.get(role)) return
-            roleReset(member, Object.keys(variables.roles))
-            member.addRole(role).catch(console.error)
+            roleAssign(member, Object.keys(variables.roles), role)
 
             // Spice things up with a random string!
             const stringArray = [
@@ -92,10 +92,9 @@ exports.run = (client, botId, reactions, reaction, user) => {
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
-            const role = msg.guild.roles.get(variables.roles.available)
+            const role = variables.roles.available
             if (member.roles.get(role)) return
-            roleReset(member, Object.keys(variables.roles))
-            member.addRole(role).catch(console.error)
+            roleAssign(member, Object.keys(variables.roles), role)
 
             // If user was looking, remove their looking message
             msgRemover(msg.channel, user.id)
@@ -108,10 +107,9 @@ exports.run = (client, botId, reactions, reaction, user) => {
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
-            const role = msg.guild.roles.get(variables.roles.inGame)
+            const role = variables.roles.inGame
             if (member.roles.get(role)) return
-            roleReset(member, Object.keys(variables.roles))
-            member.addRole(role).catch(console.error)
+            roleAssign(member, Object.keys(variables.roles), role)
 
             // If user was looking, remove their looking message
             msgRemover(msg.channel, user.id)
@@ -124,10 +122,9 @@ exports.run = (client, botId, reactions, reaction, user) => {
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
-            const role = msg.guild.roles.get(variables.roles.doNotDisturb)
+            const role = variables.roles.doNotDisturb
             if (member.roles.get(role)) return
-            roleReset(member, Object.keys(variables.roles))
-            member.addRole(role).catch(console.error)
+            roleAssign(member, Object.keys(variables.roles), role)
 
             // If user was looking, remove their looking message
             msgRemover(msg.channel, user.id)
