@@ -28,5 +28,10 @@ module.exports = {
 
     guilds: {
         warvdineBotTesting: "596590684668952606"
+    },
+
+    prefixes: {
+        command: "!",
+        request: "?"
     }
 }
