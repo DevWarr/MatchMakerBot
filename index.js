@@ -5,8 +5,8 @@ const Enmap = require("./utils/Enmap.js")
 
 // Create a new client. This is our bot!
 const client = new Discord.Client()
-const config = require("./utils/variables.js")
-client.config = config
+const variables = require("./utils/variables.js")
+client.config = variables.prefixes
 
 //=============================TIME DISPLAY=============================//
 
@@ -20,7 +20,7 @@ const getDateTime = () => {
     hour = hour < 10 ? `0${hour}` : `${hour}`
     let day = date.getDate()
     day = day < 10 ? `0${day}` : `${day}`
-    let month = date.getMonths()
+    let month = date.getMonth()
     month = month < 10 ? `0${month}` : `${month}`
     let year = date.getFullYear()
     return `${year}:${month}:${day} ${hour}:${min}:${sec}:`

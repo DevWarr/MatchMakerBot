@@ -25,10 +25,10 @@ module.exports = (client, message) => {
     // What is our message prefix?
     switch (message.content[0]) {
         // command = "!"
-        case client.config["command-prefix"]: {
+        case client.config.command: {
             // Declare our args and command. Command declaration removes it from [args], so no redundancy
             const args = message.content
-                .slice(client.config["command-prefix"].length)
+                .slice(client.config.command.length)
                 .trim()
                 .split(/ +/g)
             const command = args.shift().toLowerCase()
@@ -40,10 +40,10 @@ module.exports = (client, message) => {
         }
 
         // request = "?"
-        case client.config["request-prefix"]: {
+        case client.config.request: {
             // Declare our args and request. Request declaration removes it from [args], so no redundancy
             const args = message.content
-                .slice(client.config["request-prefix"].length)
+                .slice(client.config.request.length)
                 .trim()
                 .split(/ +/g)
             const request = args.shift().toLowerCase()

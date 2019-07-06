@@ -3,7 +3,7 @@ const variables = require("../utils/variables.js")
 exports.run = (client, message, [identity, ...props]) => {
 
     // Just a safety check
-    if (message.author.id !== variables.users.warvdine) return
+    if (message.author.id !== variables.users.warvdine) return 
     let detector = null
     switch (identity) {
         case "client":
