@@ -14,7 +14,7 @@ module.exports = {
     channels: {
         freeBotTesting: "596809535419711502",
         matchmaking: "596803653055021087",
-        matchesGroup: ""
+        matchesGroup: "596962410347233281"
     },
 
     reactions: {
