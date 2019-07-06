@@ -35,6 +35,9 @@ const messages = {
     },
 
     // matchName
-    matchCreated: `${matchName} now in progress. Please proceed to DMs if you wish to communicate.\nThe match has begun!`
+    matchCreated: `${matchName} now in progress. Please proceed to DMs if you wish to communicate.\nThe match has begun!`,
+
+    matchInfo: `<@${user1.id}> and <@${user1.id}>! This is the time for you two to compete. May the best player win.\n\nWhen either of you are ready to leave, just click the door and these two channels will be deleted.\n**Remember:**`,
+    stringArray: [`I know who the victor is before the match has even begun.`, `The best way to win is to outplay your opponent.`, `Take it easy out there.`, `It is only a game.`, `You'll always be better than the bot. I don't even have hands!`]
 }
 

@@ -23,7 +23,8 @@ module.exports = {
         inGame: "⛔",
         doNotDisturb: "🔕",
         challenger: "⚔",
-        ok: "🆗"
+        ok: "🆗",
+        door: "🚪",
     },
 
     guilds: {
