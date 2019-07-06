@@ -78,24 +78,6 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         .catch(console.error)
     console.log(channelCategory.id)
 
-    // The text channel
-    const textChannel = msg.guild
-        .createChannel(`text- ${channelName}`, {
-            type: "text",
-            permissionOverwrites: [
-                {
-                    id: msg.guild.id,
-                    deny: ["VIEW_CHANNEL"]
-                },
-                { id: user1, allow: ["VIEW_CHANNEL"] },
-                { id: user2, allow: ["VIEW_CHANNEL"] }
-            ]
-        })
-        .then(
-            channel => channel.setParent(channelCategory.id).catch(console.log) // appended to the category
-        )
-        .catch(console.log)
-
     // The voice channel
     const voiceChannel = msg.guild
         .createChannel(`voice-${channelName}`, {
@@ -114,6 +96,33 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         )
         .catch(console.log)
 
+    // The text channel
+    const textChannel = msg.guild
+        .createChannel(`text- ${channelName}`, {
+            type: "text",
+            permissionOverwrites: [
+                {
+                    id: msg.guild.id,
+                    deny: ["VIEW_CHANNEL"]
+                },
+                { id: user1, allow: ["VIEW_CHANNEL"] },
+                { id: user2, allow: ["VIEW_CHANNEL"] }
+            ]
+        })
+        .then(
+            channel => channel.setParent(channelCategory.id).then(channel => channel.send()).catch(console.log) // appended to the category
+        )
+        .catch(console.log)
+
+
+
+    // Create an "info" object
+    const info = {
+        user1: user1,
+        user2: user2,
+        channel1: textChannel,
+        channel2: voiceChannel
+    }
     msg.channel
         .send(
             `<@${user1.id}> vs <@${
@@ -126,7 +135,7 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
             new Collector(
                 msg,
                 "MATCH_CREATED",
-                { user1: user1, user2: user.id },
+                info,
                 client
             ).initiate()
         })

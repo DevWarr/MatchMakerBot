@@ -14,10 +14,13 @@ exports.run = (client, botId, reactions, user1, reaction, user) => {
     if (reaction.name !== challenger)
         reaction.remove(user.id).catch(console.error)
 
+    // Create our custom message
     const stringArray = [`challenges`, `offers to play with`, `wants to fight`]
     const randomString =
         stringArray[Math.floor(Math.random() * stringArray.length)]
     const punc = Math.round(Math.random) ? "!" : "."
+
+    // And send it to the channel, listening for reactions
     msg.channel
         .send(`<@${user.id}> ${randomString} <@${user1}>${punc}`)
         .then(msg => {
