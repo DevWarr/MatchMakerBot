@@ -4,17 +4,21 @@ module.exports = (client, message) => {
     // Get log command
     const log = client.commands.get("log")
 
-    // Message setn by bot? No action!
+    // Message set by bot? No action!
     if (message.author.bot) return
-    log(`New message detected! ${message.content}`)
-    if (!(message.channel.id === variables.channels.freeBotTesting ||
-        message.channel.id === variables.channels.matchmaking)) return
+    if (
+        !(
+            message.channel.id === variables.channels.freeBotTesting ||
+            message.channel.id === variables.channels.matchmaking
+        )
+    )
+        return log(`New message detected! ${message.content}`)
+    log(`potential command detected! ${message.content}`)
 
     // Message by a user in a bot only channel? Get em out!
     if (
         !message.author.bot &&
-        (message.channel.id === variables.channels.freeBotTesting ||
-            message.channel.id === variables.channels.matchmaking)
+        message.channel.id === variables.channels.matchmaking
     ) {
         message
             .delete(1200)
@@ -28,7 +32,6 @@ module.exports = (client, message) => {
                     .then(sentMsg => sentMsg.delete(2500))
             )
     }
-
 
     // What is our message prefix?
     switch (message.content[0]) {

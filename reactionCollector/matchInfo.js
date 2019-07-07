@@ -11,6 +11,7 @@ exports.run = (
 ) => {
     // Get commands for usage
     const msgRemover = client.commands.get("msgRemover").run
+    const roleAssign = client.commands.get("roleAssign").run
     const log = client.commands.get("log")
 
     // Some "error" handling
