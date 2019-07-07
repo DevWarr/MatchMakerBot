@@ -1,14 +1,36 @@
+/*
+    Modifyable values:
+      - role IDs:
+        looking 
+        available
+        inGame
+      - channel IDs:
+        botTesting
+        matchmaking
+        matchmaking category
+      - reaction Unicode Values:
+        looking
+        available
+        inGame
+        doNotDisturb
+        challenger
+        ok
+        door
+      - guild ID:
+        specific Server
+*/
+
 module.exports = {
     users: {
         bot: "596597142768844811",
-        warvdine: "296327135491129344"
+        warvdine: "296327135491129344",
+        admin: ""
     },
 
     roles: {
         looking: "596895809669300234",
         available: "596896327284031489",
-        inGame: "596896477750493214",
-        doNotDisturb: "596895996747710483"
+        inGame: "596896477750493214"
     },
 
     channels: {
@@ -23,10 +45,32 @@ module.exports = {
         inGame: "⛔",
         doNotDisturb: "🔕",
         challenger: "⚔",
-        ok: "🆗"
+        ok: "🆗",
+        door: "🚪"
     },
 
     guilds: {
         warvdineBotTesting: "596590684668952606"
+    },
+
+    prefixes: {
+        command: "!",
+        request: "?"
+    },
+
+    stringArrays: {
+        looking: [
+            `**is looking for an opponent!**`,
+            `**seeks a new challenger.**`,
+            `**is searching for someone to fight!**`
+        ],
+        challenger: [`challenges`, `offers to play with`, `wants to fight`],
+        matchInfo: [
+            `I know who the victor is before the match has even begun.`,
+            `The best way to win is to outplay your opponent.`,
+            `Take it easy out there.`,
+            `It is only a game.`,
+            `You'll always be better than the bot. I don't even have hands!`
+        ]
     }
 }

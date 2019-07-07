@@ -1,16 +1,23 @@
+const variables = require("../utils/variables.js")
+
 module.exports = (client, message) => {
+    // Get log command
+    const log = client.commands.get("log")
+
     // Message setn by bot? No action!
     if (message.author.bot) return
-    console.log("New message detected!")
+    log(`New message detected! ${message.content}`)
+    if (!(message.channel.id === variables.channels.freeBotTesting ||
+        message.channel.id === variables.channels.matchmaking)) return
 
     // Message by a user in a bot only channel? Get em out!
     if (
         !message.author.bot &&
-        (message.channel.id === "596803653055021087" ||
-            message.channel.id === "596809535419711502")
+        (message.channel.id === variables.channels.freeBotTesting ||
+            message.channel.id === variables.channels.matchmaking)
     ) {
         message
-            .delete()
+            .delete(1200)
             .then(deletedMsg =>
                 deletedMsg.channel
                     .send(
@@ -18,17 +25,18 @@ module.exports = (client, message) => {
                             deletedMsg.author.id
                         }> Please keep this channel bot only. Thank you!`
                     )
-                    .then(sentMsg => sentMsg.delete(5000))
+                    .then(sentMsg => sentMsg.delete(2500))
             )
     }
+
 
     // What is our message prefix?
     switch (message.content[0]) {
         // command = "!"
-        case client.config["command-prefix"]: {
+        case client.config.command: {
             // Declare our args and command. Command declaration removes it from [args], so no redundancy
             const args = message.content
-                .slice(client.config["command-prefix"].length)
+                .slice(client.config.command.length)
                 .trim()
                 .split(/ +/g)
             const command = args.shift().toLowerCase()
@@ -40,10 +48,10 @@ module.exports = (client, message) => {
         }
 
         // request = "?"
-        case client.config["request-prefix"]: {
+        case client.config.request: {
             // Declare our args and request. Request declaration removes it from [args], so no redundancy
             const args = message.content
-                .slice(client.config["request-prefix"].length)
+                .slice(client.config.request.length)
                 .trim()
                 .split(/ +/g)
             const request = args.shift().toLowerCase()

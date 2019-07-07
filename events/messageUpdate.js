@@ -1,14 +1,17 @@
+const variables = require("../utils/variables.js")
+
 module.exports = (client, omsg, nmsg) => {
+    // Get log command
+    const log = client.commands.get("log")
+
     // ONLY listen for message updates if the updates are within
-    // "bot-test-two" or "free-bot-testing"
-    console.log("message update detected!")
+    // the bot allowed channels
     if (
-        omsg.channel.name !== "bot-test-two" ||
-        nmsg.channel.name !== "bot-test-two" ||
-        omsg.channel.name !== "free-bot-testing" ||
-        nmsg.channel.name !== "free-bot-testing"
+        omsg.channel.id !== variables.channels.freeBotTesting ||
+        nmsg.channel.id !== variables.channels.freeBotTesting ||
+        omsg.channel.id !== variables.channels.matchmaking ||
+        nmsg.channel.id !== variables.channels.matchmaking
     )
         return
-
-    console.log(nmsg.reactions)
+    log("message update detected!")
 }

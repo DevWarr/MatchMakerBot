@@ -1,9 +1,11 @@
 const variables = require("../utils/variables.js")
 
 exports.run = (client, message, [identity, ...props]) => {
+    // Get log command
+    const log = client.commands.get("log")
 
     // Just a safety check
-    if (message.author.id !== variables.users.warvdine) return
+    if (message.author.id !== variables.users.warvdine) return 
     let detector = null
     switch (identity) {
         case "client":
@@ -15,9 +17,9 @@ exports.run = (client, message, [identity, ...props]) => {
         default:
             return
     }
-    if (!props) return console.log(detector)
+    if (!props) return log(detector)
     props.forEach(prop => {
         detector = detector[prop]
     })
-    console.log(detector)
+    log(detector)
 }

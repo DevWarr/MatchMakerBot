@@ -8,4 +8,4 @@
 /.vscode
 
 # config file
-config.json
+token.json

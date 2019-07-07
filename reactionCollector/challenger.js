@@ -1,32 +1,17 @@
 const Collector = require("../reactionCollector")
 const variables = require("../utils/variables.js")
 
-const msgRemover = (channel, user1, user2 = null) => {
-    const arrayWithUser = channel.messages.filter(
-        message =>
-            !message.mentions.users.get(variables.users.bot) &&
-            (message.mentions.users.get(user1) ||
-                message.mentions.users.get(user2))
-    )
-    arrayWithUser.forEach(msg => {
-        if ([...msg.mentions.users].length <= 2)
-            msg.delete().catch(console.error)
-    })
-}
-
-const roleReset = (member, removers) => {
-    removers.forEach(role => {
-        if (member.roles.get(variables.roles[`${role}`])) {
-            member.removeRole(variables.roles[`${role}`])
-        }
-    })
-}
 
 exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
+    // Get commands for usage
+    const roleAssign = client.commands.get("roleAssign").run
+    const msgRemover = client.commands.get("msgRemover").run
+    const log = client.commands.get("log")
+
     // Some "error" handling
     if (user.id === botId) return
-    if (!reaction.me) reaction.remove(user.id).catch(console.error)
-    if (user.id !== user1) reaction.remove(user.id).catch(console.error)
+    if (!reaction.me) return reaction.remove(user.id).catch(log)
+    // if (user.id !== user1) return reaction.remove(user.id).catch(log)
 
     // Setting init values:
     // msg, member, and reactions
@@ -38,16 +23,15 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         .get(variables.guilds.warvdineBotTesting)
         .members.get(user2)
     const role = variables.roles.inGame
-    const { ok } = reactions
+    const { ok, door } = reactions
     // Final error check
-    if (reaction.name !== ok) reaction.remove(user.id).catch(console.error)
+    if (reaction.emoji.name !== ok)
+        return reaction.remove(user.id).catch(log)
 
     // Alright, step one is to remove the extra messages, and set both users' roles
     msgRemover(msg.channel, user1, user2)
-    roleReset(member1, Object.keys(variables.roles))
-    roleReset(member2, Object.keys(variables.roles))
-    member1.addRole(role).catch(console.error)
-    member2.addRole(role).catch(console.error)
+    roleAssign(member1, Object.keys(variables.roles), role)
+    roleAssign(member2, Object.keys(variables.roles), role)
 
     // Then we need to create our new channel:
 
@@ -64,40 +48,10 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
     const channelCategory = msg.guild.channels.get(
         variables.channels.matchesGroup
     )
-    channelCategory
-        .edit({
-            permissionOverwrites: [
-                {
-                    id: msg.guild.id,
-                    deny: ["VIEW_CHANNEL"]
-                },
-                { id: user1, allow: ["VIEW_CHANNEL"] },
-                { id: user2, allow: ["VIEW_CHANNEL"] }
-            ]
-        })
-        .catch(console.error)
-    console.log(channelCategory.id)
 
-    // The text channel
-    const textChannel = msg.guild
-        .createChannel(`text- ${channelName}`, {
-            type: "text",
-            permissionOverwrites: [
-                {
-                    id: msg.guild.id,
-                    deny: ["VIEW_CHANNEL"]
-                },
-                { id: user1, allow: ["VIEW_CHANNEL"] },
-                { id: user2, allow: ["VIEW_CHANNEL"] }
-            ]
-        })
-        .then(
-            channel => channel.setParent(channelCategory.id).catch(console.log) // appended to the category
-        )
-        .catch(console.log)
-
+    let textChannel, voiceChannel
     // The voice channel
-    const voiceChannel = msg.guild
+    msg.guild
         .createChannel(`voice-${channelName}`, {
             type: "voice",
             permissionOverwrites: [
@@ -106,29 +60,85 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
                     deny: ["VIEW_CHANNEL"]
                 },
                 { id: user1, allow: ["VIEW_CHANNEL"] },
-                { id: user2, allow: ["VIEW_CHANNEL"] }
+                { id: user2, allow: ["VIEW_CHANNEL"] },
+                { id: botId, allow: ["VIEW_CHANNEL"] }
             ]
         })
         .then(
-            channel => channel.setParent(channelCategory.id).catch(console.log) // appended to the category
+            channel => {
+                voiceChannel = msg.guild.channels.get(channel.id)
+                channel.setParent(channelCategory.id).catch(log)
+            } // appended to the category
         )
-        .catch(console.log)
+        .catch(log)
+
+    // The text channel
+    msg.guild
+        .createChannel(`${channelName}`, {
+            type: "text",
+            permissionOverwrites: [
+                {
+                    id: msg.guild.id,
+                    deny: ["VIEW_CHANNEL"]
+                },
+                { id: user1, allow: ["VIEW_CHANNEL"] },
+                { id: user2, allow: ["VIEW_CHANNEL"] },
+                { id: botId, allow: ["VIEW_CHANNEL"] }
+            ]
+        })
+        .then(
+            channel => {
+                textChannel = msg.guild.channels.get(channel.id)
+                channel
+                    .setParent(channelCategory.id)
+                    // Once created, we prep our mystical message
+                    .then(channel => {
+                        const introMsg = `<@${user1.id}> and <@${
+                            user2.id
+                        }>! This is the time for you two to compete. May the best player win.\n\nWhen either of you are ready to leave, just click the door and these two channels will be deleted.\n**Remember:**`
+                        const stringsArray = variables.stringArrays.matchInfo
+                        const randomString =
+                            stringsArray[
+                                Math.floor(Math.random() * stringsArray.length)
+                            ]
+                        // Here we send the message, create a new collector, and react to our message
+                        channel
+                            .send(`${introMsg} ${randomString}`)
+                            .then(msg => {
+                                // Create an "info" object
+                                const info = {
+                                    user1: user1.id,
+                                    user2: user2.id,
+                                    channel1: textChannel.id,
+                                    channel2: voiceChannel.id
+                                }
+                                new Collector(
+                                    msg,
+                                    "MATCH_INFO",
+                                    info,
+                                    client
+                                ).initiate()
+                                msg.react(door)
+                            })
+                    })
+                    .catch(log)
+            } // appended to the category
+        )
+        .catch(log)
 
     msg.channel
         .send(
             `<@${user1.id}> vs <@${
                 user2.id
-            }> now in progress at #${channelName}. Please proceed there to communicate.\nThe match has begun!\n\n(Thank you for using <@${
-                variables.users.bot
-            }>!)`
+            }> now in progress at #${channelName}. Please proceed there to communicate.\nThe match has begun! \n\n(Thank you for using The MatchMaker!)`
         )
         .then(msg => {
             new Collector(
                 msg,
                 "MATCH_CREATED",
-                { user1: user1, user2: user.id },
+                { user1: user1.id, user2: user2.id },
                 client
             ).initiate()
         })
-        .catch(console.error)
+        .catch(log)
 }
