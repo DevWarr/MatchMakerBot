@@ -81,7 +81,7 @@ fs.readdir("./requests/", (err, files) => {
 
 
 // CHANGE THIS BEFORE HEROKU LAUNCH
-// const token = require("./token.json")
-// client.login(token.token)
+const token = require("./token.json")
+client.login(token.token)
 
-client.login(process.env.token)
+// client.login(process.env.token)
