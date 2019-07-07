@@ -1,3 +1,25 @@
+/*
+    Modifyable values:
+      - role IDs:
+        looking 
+        available
+        inGame
+      - channel IDs:
+        botTesting
+        matchmaking
+        matchmaking category
+      - reaction Unicode Values:
+        looking
+        available
+        inGame
+        doNotDisturb
+        challenger
+        ok
+        door
+      - guild ID:
+        specific Server
+*/
+
 module.exports = {
     users: {
         bot: "596597142768844811",

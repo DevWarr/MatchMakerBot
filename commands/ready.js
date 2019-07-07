@@ -2,7 +2,10 @@ const Collector = require("../reactionCollector")
 const variables = require("../utils/variables.js")
 
 exports.run = client => {
-    console.log("Fetching messages...")
+    // Get log command
+    const log = client.commands.get("log")
+
+    log("Fetching messages...")
     const matchmaking = client.channels.find(
         channel => channel.id === variables.channels.matchmaking
     )
@@ -41,17 +44,17 @@ exports.run = client => {
                                                 reactions.doNotDisturb
                                             )
                                         )
-                                        .catch(console.error)
+                                        .catch(log)
                                 )
-                                .catch(console.error)
+                                .catch(log)
                         )
-                        .catch(console.error)
+                        .catch(log)
                 })
-                .catch(console.error)
+                .catch(log)
         })
-        .catch(console.error)
+        .catch(log)
 
-        .catch(console.error)
+        .catch(log)
 
     const freeBotTesting = client.channels.find(
         channel => channel.id === variables.channels.freeBotTesting
@@ -61,12 +64,12 @@ exports.run = client => {
         .then(messages => {
             messages.forEach(message => {
                 if (!message.author.bot) {
-                    message.delete().catch(console.error)
+                    message.delete().catch(log)
                 }
             })
         })
-        .catch(console.error)
+        .catch(log)
 
-    console.log("Messages fetched!")
-    console.log("I am ready!")
+    log("Messages fetched!")
+    log("I am ready!")
 }
