@@ -23,7 +23,7 @@ const getDateTime = () => {
     let month = date.getMonth()
     month = month < 10 ? `0${month}` : `${month}`
     let year = date.getFullYear()
-    return `${year}:${month}:${day} ${hour}:${min}:${sec}:`
+    return `${year}:${month}:${day} ${hour}:${min}:${sec}  `
 }
 
 const log = (message) => {

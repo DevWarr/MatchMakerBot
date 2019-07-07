@@ -8,9 +8,7 @@ module.exports = {
     roles: {
         looking: "596895809669300234",
         available: "596896327284031489",
-        inGame: "596896477750493214",
-        doNotDisturb: "596895996747710483",
-        spactators: ""
+        inGame: "596896477750493214"
     },
 
     channels: {
@@ -26,7 +24,7 @@ module.exports = {
         doNotDisturb: "🔕",
         challenger: "⚔",
         ok: "🆗",
-        door: "🚪",
+        door: "🚪"
     },
 
     guilds: {

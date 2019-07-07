@@ -109,9 +109,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
-            const role = variables.roles.doNotDisturb
-            if (member.roles.get(role)) return
-            roleAssign(member, Object.keys(variables.roles), role)
+            roleAssign(member, Object.keys(variables.roles), null)
 
             // If user was looking, remove their looking message
             msgRemover(msg.channel, user.id)
