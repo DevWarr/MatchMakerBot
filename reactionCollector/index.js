@@ -16,14 +16,14 @@ class Collector {
 
     initiate() {
         console.log("\nCreating new collector:")
-        console.log(`msg: ${msg}`)
-        console.log(`bot: ${bot}`)
-        console.log(`bot: ${bot}`)
-        console.log(`type: ${type}`)
-        console.log(`user1: ${user1}`)
-        console.log(`user2: ${user2}`)
-        console.log(`channel1: ${channel1}`)
-        console.log(`channel2: ${channel2}`)
+        console.log(`msg: ${this.msg}`)
+        console.log(`bot: ${this.bot}`)
+        console.log(`bot: ${this.bot}`)
+        console.log(`type: ${this.type}`)
+        console.log(`user1: ${this.user1}`)
+        console.log(`user2: ${this.user2}`)
+        console.log(`channel1: ${this.channel1}`)
+        console.log(`channel2: ${this.channel2}`)
         console.log(`\n\n`)
         switch (this.type) {
             case "MAIN_INFO": {

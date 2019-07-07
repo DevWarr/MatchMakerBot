@@ -1,18 +1,6 @@
 const Collector = require("../reactionCollector")
 const variables = require("../utils/variables.js")
 
-const msgRemover = (channel, user1, user2 = null) => {
-    const arrayWithUser = channel.messages.filter(
-        message =>
-            !message.mentions.users.get(variables.users.bot) &&
-            message.mentions.users.get(user1)
-    )
-    arrayWithUser.forEach(msg => {
-        if ([...msg.mentions.users].length === 1)
-            msg.delete(500).catch(console.error)
-    })
-}
-
 /*
     Listener for the Main Info section of the matchmaker.
     This is the Message with all the initial info
@@ -37,6 +25,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
         .members.get(user.id)
     const { looking, available, inGame, doNotDisturb } = reactions
     const roleAssign = client.commands.get("roleAssign").run
+    const msgRemover = client.commands.get("msgRemover").run
     // Final error check
 
     switch (reaction.emoji.name) {

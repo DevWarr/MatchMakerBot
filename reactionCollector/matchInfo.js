@@ -1,17 +1,6 @@
 const Collector = require("../reactionCollector")
 const variables = require("../utils/variables.js")
 
-const msgRemover = (channel, user1, user2) => {
-    channel.messages.forEach(message => {
-        if (
-            message.mentions.users.get(variables.users.bot) &&
-            message.mentions.users.get(user1) &&
-            message.mentions.users.get(user2)
-        )
-            message.delete().catch(console.error)
-    })
-}
-
 exports.run = (
     client,
     botId,
@@ -23,7 +12,7 @@ exports.run = (
     // Some "error" handling
     if (user.id === botId) return
     if (!reaction.me) return reaction.remove(user.id).catch(console.error)
-    if (user.id !== user1 || user.id !== user2)
+    if (user.id !== user1 && user.id !== user2)
         return reaction.remove(user.id).catch(console.error)
 
     // Setting init values:
@@ -49,6 +38,9 @@ exports.run = (
     // Role and Reactions
     const role = variables.roles.inGame
     const { door } = reactions
+
+    // msgRemover
+    const msgRemover = client.commands.get("msgRemover").run
 
     // Final error check
     if (reaction.emoji.name !== door)
