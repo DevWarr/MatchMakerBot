@@ -29,7 +29,6 @@ And the easiest part? Everything happens with Emoji Reactions! No need to type a
 Once you've found a match, The Matchmaker will create two channels— 1 text and 1 voice— that only the two competitors can see.
 Enter those channels, then find each other within the game of your choice. Wish to trash talk each other? Open a voice channel and speak destruction onto your opponent.
 
-**(NOTE: This portion has not yet been fully coded. Deleting channels will soon be automated by The MatchMaker as well.)**
 And of course, once your done, just send The MatchMaker the proper reaction emoji and the channels will be deleted for you! What happens in competition, stays in competition.
 
 ## What do I need for The MatchMaker to function happily?
@@ -39,10 +38,9 @@ In order for the matchmaker to work, you need a few things set up:
   * Looking for Opponents
   * Potentially Available
   * In Game
-  * Do Not Disturb
 * Channels:
-  * Text Channel for The MatchMaker to use exclusively
-  * Category channel within which The MatchMaker can create channels
+  * A Category Channel, like "MatchMaking"
+  * Text Channel inside this category, for the MatchMaker to send its messages
 
 ## How do I set these roles and channels?
 
