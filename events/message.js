@@ -6,7 +6,7 @@ module.exports = (client, message) => {
 
     // Message setn by bot? No action!
     if (message.author.bot) return
-    log("New message detected!")
+    log(`New message detected! ${message.content}`)
     if (!(message.channel.id === variables.channels.freeBotTesting ||
         message.channel.id === variables.channels.matchmaking)) return
 
@@ -25,7 +25,7 @@ module.exports = (client, message) => {
                             deletedMsg.author.id
                         }> Please keep this channel bot only. Thank you!`
                     )
-                    .then(sentMsg => sentMsg.delete(5000))
+                    .then(sentMsg => sentMsg.delete(2500))
             )
     }
 

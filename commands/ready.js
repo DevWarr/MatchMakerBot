@@ -24,11 +24,11 @@ exports.run = client => {
                         reactions.available
                     } Potentially Available\n${reactions.inGame} In Game\n${
                         reactions.doNotDisturb
-                    } Do Not Disturb\n\nIf a user is looking for an opponent, there will be a message down below. If you would like to challenge them, click the ${
+                    } Do Not Disturb (removes other roles)\n\nIf a user is looking for an opponent, there will be a message down below. If you would like to challenge them, click the ${
                         reactions.challenger
                     } emoji.\nThey can accept your challenge by clicking the ${
                         reactions.ok
-                    } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify @WarVDine and help will reach you soon!`
+                    } emoji.\n\nNeed help, have suggestions, or see bugs? Please notify <@${variables.users.warvdine}> and help will reach you soon!`
                 )
                 .then(msg => {
                     new Collector(msg, "MAIN_INFO", {}, client).initiate()

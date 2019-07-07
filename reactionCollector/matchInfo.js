@@ -44,13 +44,17 @@ exports.run = (
     const { door } = reactions
 
     // Final error check
-    if (reaction.emoji.name !== door)
-        return reaction.remove(user.id).catch(log)
+    if (reaction.emoji.name !== door) return reaction.remove(user.id).catch(log)
 
+    // Delete channels
     textChannel.delete().catch(log)
     voiceChannel.delete().catch(log)
     const matchmaking = client.guilds
         .get(variables.guilds.warvdineBotTesting)
         .channels.get(variables.channels.matchmaking)
+
+    // Remove roles and delete match announcement message
+    roleAssign(member1, Object.keys(variables.roles), null)
+    roleAssign(member2, Object.keys(variables.roles), null)
     msgRemover(matchmaking, user1, user2)
 }
