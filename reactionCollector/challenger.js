@@ -3,10 +3,15 @@ const variables = require("../utils/variables.js")
 
 
 exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
+    // Get commands for usage
+    const roleAssign = client.commands.get("roleAssign").run
+    const msgRemover = client.commands.get("msgRemover").run
+    const log = client.commands.get("log")
+
     // Some "error" handling
     if (user.id === botId) return
-    if (!reaction.me) return reaction.remove(user.id).catch(console.error)
-    // if (user.id !== user1) return reaction.remove(user.id).catch(console.error)
+    if (!reaction.me) return reaction.remove(user.id).catch(log)
+    // if (user.id !== user1) return reaction.remove(user.id).catch(log)
 
     // Setting init values:
     // msg, member, and reactions
@@ -19,11 +24,9 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         .members.get(user2)
     const role = variables.roles.inGame
     const { ok, door } = reactions
-    const roleAssign = client.commands.get("roleAssign").run
-    const msgRemover = client.commands.get("msgRemover").run
     // Final error check
     if (reaction.emoji.name !== ok)
-        return reaction.remove(user.id).catch(console.error)
+        return reaction.remove(user.id).catch(log)
 
     // Alright, step one is to remove the extra messages, and set both users' roles
     msgRemover(msg.channel, user1, user2)
@@ -64,10 +67,10 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
         .then(
             channel => {
                 voiceChannel = msg.guild.channels.get(channel.id)
-                channel.setParent(channelCategory.id).catch(console.log)
+                channel.setParent(channelCategory.id).catch(log)
             } // appended to the category
         )
-        .catch(console.log)
+        .catch(log)
 
     // The text channel
     msg.guild
@@ -118,10 +121,10 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
                                 msg.react(door)
                             })
                     })
-                    .catch(console.log)
+                    .catch(log)
             } // appended to the category
         )
-        .catch(console.log)
+        .catch(log)
 
     msg.channel
         .send(
@@ -137,5 +140,5 @@ exports.run = (client, botId, reactions, user1, user2, reaction, user) => {
                 client
             ).initiate()
         })
-        .catch(console.error)
+        .catch(log)
 }

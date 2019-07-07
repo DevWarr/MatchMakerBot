@@ -2,10 +2,13 @@ const Collector = require("../reactionCollector")
 const variables = require("../utils/variables")
 
 exports.run = (client, botId, reactions, user1, reaction, user) => {
+    // Assign functions
+    const log = client.commands.get("log")
+
     // Some "error" handling
     if (user.id === botId) return
-    if (!reaction.me) reaction.remove(user.id).catch(console.error)
-    // if (user.id === user1) reaction.remove(user.id).catch(console.error)
+    if (!reaction.me) reaction.remove(user.id).catch(log)
+    // if (user.id === user1) reaction.remove(user.id).catch(log)
 
     // Setting init values:
     // msg, member, and reactions
@@ -13,7 +16,7 @@ exports.run = (client, botId, reactions, user1, reaction, user) => {
     const { challenger } = reactions
     // Final error check
     if (reaction.name !== challenger)
-        reaction.remove(user.id).catch(console.error)
+        reaction.remove(user.id).catch(log)
 
     // Create our custom message
     const stringArray = variables.stringArrays.challenger
@@ -26,7 +29,7 @@ exports.run = (client, botId, reactions, user1, reaction, user) => {
         .send(`<@${user.id}> ${randomString} <@${user1}>${punc}`)
         .then(msg => {
             new Collector(msg, "CHALLENGER", { user1: user1, user2: user.id }, client).initiate()
-            msg.react(reactions.ok).catch(console.error)
+            msg.react(reactions.ok).catch(log)
         })
-        .catch(console.error)
+        .catch(log)
 }

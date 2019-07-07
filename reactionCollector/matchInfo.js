@@ -9,11 +9,15 @@ exports.run = (
     reaction,
     user
 ) => {
+    // Get commands for usage
+    const msgRemover = client.commands.get("msgRemover").run
+    const log = client.commands.get("log")
+
     // Some "error" handling
     if (user.id === botId) return
-    if (!reaction.me) return reaction.remove(user.id).catch(console.error)
+    if (!reaction.me) return reaction.remove(user.id).catch(log)
     if (user.id !== user1 && user.id !== user2)
-        return reaction.remove(user.id).catch(console.error)
+        return reaction.remove(user.id).catch(log)
 
     // Setting init values:
     // Msg
@@ -39,15 +43,12 @@ exports.run = (
     const role = variables.roles.inGame
     const { door } = reactions
 
-    // msgRemover
-    const msgRemover = client.commands.get("msgRemover").run
-
     // Final error check
     if (reaction.emoji.name !== door)
-        return reaction.remove(user.id).catch(console.error)
+        return reaction.remove(user.id).catch(log)
 
-    textChannel.delete().catch(console.error)
-    voiceChannel.delete().catch(console.error)
+    textChannel.delete().catch(log)
+    voiceChannel.delete().catch(log)
     const matchmaking = client.guilds
         .get(variables.guilds.warvdineBotTesting)
         .channels.get(variables.channels.matchmaking)

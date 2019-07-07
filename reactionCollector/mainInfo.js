@@ -13,9 +13,14 @@ const variables = require("../utils/variables.js")
 */
 
 exports.run = (client, botId, reactions, reaction, user) => {
+    // Get commands for usage
+    const roleAssign = client.commands.get("roleAssign").run
+    const msgRemover = client.commands.get("msgRemover").run
+    const log = client.commands.get("log")
+
     // Some "error" handling
     if (user.id === botId) return
-    if (!reaction.me) return reaction.remove(user.id).catch(console.error)
+    if (!reaction.me) return reaction.remove(user.id).catch(log)
 
     // Setting init values:
     // msg, member, and reactions
@@ -24,14 +29,12 @@ exports.run = (client, botId, reactions, reaction, user) => {
         .get(variables.guilds.warvdineBotTesting)
         .members.get(user.id)
     const { looking, available, inGame, doNotDisturb } = reactions
-    const roleAssign = client.commands.get("roleAssign").run
-    const msgRemover = client.commands.get("msgRemover").run
     // Final error check
 
     switch (reaction.emoji.name) {
         case looking: {
             // Remove reaction
-            reaction.remove(user.id).catch(console.error)
+            reaction.remove(user.id).catch(log)
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
@@ -69,15 +72,15 @@ exports.run = (client, botId, reactions, reaction, user) => {
                         { user1: user.id },
                         client
                     ).initiate()
-                    msg.react(reactions.challenger).catch(console.error)
+                    msg.react(reactions.challenger).catch(log)
                 })
-                .catch(console.error)
+                .catch(log)
             break
         }
 
         case available: {
             // Remove reaction
-            reaction.remove(user.id).catch(console.error)
+            reaction.remove(user.id).catch(log)
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
@@ -90,7 +93,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
 
         case inGame: {
             // Remove reaction
-            reaction.remove(user.id).catch(console.error)
+            reaction.remove(user.id).catch(log)
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
@@ -105,7 +108,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
 
         case doNotDisturb: {
             // Remove reaction
-            reaction.remove(user.id).catch(console.error)
+            reaction.remove(user.id).catch(log)
 
             // Check role. If role already exists, leave it.
             // If role doesn't exist, remove other roles and add this one
@@ -117,7 +120,7 @@ exports.run = (client, botId, reactions, reaction, user) => {
         }
 
         default:
-            console.log("No valid checks.")
+            log("No valid checks.")
             return
     }
 }

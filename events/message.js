@@ -1,16 +1,23 @@
+const variables = require("../utils/variables.js")
+
 module.exports = (client, message) => {
+    // Get log command
+    const log = client.commands.get("log")
+
     // Message setn by bot? No action!
     if (message.author.bot) return
-    console.log("New message detected!")
+    log("New message detected!")
+    if (!(message.channel.id === variables.channels.freeBotTesting ||
+        message.channel.id === variables.channels.matchmaking)) return
 
     // Message by a user in a bot only channel? Get em out!
     if (
         !message.author.bot &&
-        (message.channel.id === "596803653055021087" ||
-            message.channel.id === "596809535419711502")
+        (message.channel.id === variables.channels.freeBotTesting ||
+            message.channel.id === variables.channels.matchmaking)
     ) {
         message
-            .delete()
+            .delete(1200)
             .then(deletedMsg =>
                 deletedMsg.channel
                     .send(

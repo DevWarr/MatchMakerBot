@@ -60,6 +60,7 @@ fs.readdir("./commands/", (err, files) => {
         client.commands.setNew(commandName, props)
         log(`loading command: ${commandName}...`)
     })
+    client.commands.setNew("log", log)
     log("All commands loaded!\n")
 })
 
